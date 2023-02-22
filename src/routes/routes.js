@@ -11,72 +11,77 @@ import PrivateRoute from "../utils/PrivateRoute";
 import AddJob from "../pages/employeeDashboard/AddJob";
 import EmployerDashboard from "../pages/employeeDashboard/EmployerDashboard";
 import CandidateDashboard from "../pages/candidateDashboard/CandidateDashboard";
+import AppliedJob from "../pages/AppliedJob";
 
 const routes = createBrowserRouter([
-  {
-    path: "/",
-    element: <Main />,
-    children: [
-      {
+    {
         path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/jobs",
-        element: <Jobs />,
-      },
-      {
-        path: "/job-details/:id",
-        element: <JobDetails />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <Signup />,
-      },
-      {
-        path: "/register",
+        element: <Main />,
+        children: [
+            {
+                path: "/",
+                element: <Home />,
+            },
+            {
+                path: "/jobs",
+                element: <Jobs />,
+            },
+            {
+                path: "/job-details/:id",
+                element: <JobDetails />,
+            },
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/signup",
+                element: <Signup />,
+            },
+            {
+                path: "/register",
+                element: (
+                    <PrivateRoute>
+                        <AccountCreator />
+                    </PrivateRoute>
+                ),
+            },
+            {
+                path: "/register/:type",
+                element: (
+                    <PrivateRoute>
+                        <AccountCreator />
+                    </PrivateRoute>
+                ),
+            },
+        ],
+    },
+    {
+        path: "/dashboard",
         element: (
-          <PrivateRoute>
-            <AccountCreator />
-          </PrivateRoute>
+            <PrivateRoute>
+                <Dashboard />
+            </PrivateRoute>
         ),
-      },
-      {
-        path: "/register/:type",
-        element: (
-          <PrivateRoute>
-            <AccountCreator />
-          </PrivateRoute>
-        ),
-      },
-    ],
-  },
-  {
-    path: "/dashboard",
-    element: (
-      <PrivateRoute>
-        <Dashboard />
-      </PrivateRoute>
-    ),
-    children: [
-      {
-        path: "add-job",
-        element: <AddJob />,
-      },
-      {
-        path: "employer",
-        element: <EmployerDashboard />,
-      },
-      {
-        path: "candidate",
-        element: <CandidateDashboard />,
-      },
-    ],
-  },
+        children: [
+            {
+                path: "add-job",
+                element: <AddJob />,
+            },
+            {
+                path: "applied-jobs",
+                element: <AppliedJob />,
+            },
+            {
+                path: "employer",
+                element: <EmployerDashboard />,
+            },
+            {
+                path: "candidate",
+                element: <CandidateDashboard />,
+            },
+        ],
+    },
 ]);
 
 export default routes;

@@ -42,10 +42,14 @@ export const loginWithGoogle = createAsyncThunk(
 );
 export const getUser = createAsyncThunk("auth/getUser", async (email) => {
     const url = `${process.env.REACT_APP_DEV_URL}/user/${email}`;
-    console.log(url);
+    // console.log(url);
     const res = await fetch(url);
     const data = await res.json();
-    return data.data;
+    if (data.status) {
+        return data;
+    } else {
+        return email;
+    }
 });
 
 const authSlice = createSlice({
@@ -53,7 +57,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            state.user.email = "";
+            state.user = { email: "", role: "" };
         },
         setUser: (state, { payload }) => {
             state.user.email = payload;
@@ -125,9 +129,13 @@ const authSlice = createSlice({
                 state.isError = false;
                 state.error = "";
             })
-            .addCase(getUser.fulfilled, (state, action) => {
+            .addCase(getUser.fulfilled, (state, { payload }) => {
                 state.isLoading = false;
-                state.user = action.payload;
+                if (payload.status) {
+                    state.user = payload.data;
+                } else {
+                    state.user.email = payload;
+                }
                 state.isError = false;
                 state.error = "";
             })

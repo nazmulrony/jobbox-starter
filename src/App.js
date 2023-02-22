@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import auth from "./firebase/firebase.config";
 import routes from "./routes/routes";
 import { useDispatch } from "react-redux";
-import { getUser, setLoading, setUser } from "./features/auth/authSlice";
+import { getUser, setLoading } from "./features/auth/authSlice";
 import { Toaster } from "react-hot-toast";
 function App() {
     const dispatch = useDispatch();
